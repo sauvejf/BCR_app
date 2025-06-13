@@ -79,11 +79,13 @@ server <- function(input, output, session) {
     req(show_output())
     if(nrow(selected_data()>1)){
       max_BCR <- max(selected_data()$Bande_Danger)
-      conc_BCR <- bcr_conc$Bande_Conc[bcr_conc$Bande_Danger==max_BCR]
+      conc_ppm <- bcr_conc$Bande_Conc_ppm[bcr_conc$Bande_Danger==max_BCR]
+      conc_mgm3 <- bcr_conc$Bande_Conc_mgm3[bcr_conc$Bande_Danger==max_BCR]
       
       out <- data.frame(Parametre=c("Bande de danger la plus restrictive",
-                                    "Bande de concentration associée (gaz/vapeurs)"),
-                        Valeur=c(as.character(max_BCR), conc_BCR))
+                                    "Bande de concentration associée (gaz/vapeurs)",
+                                    "Bande de concentration associée (aérosols)"),
+                        Valeur=c(as.character(max_BCR), conc_ppm, conc_mgm3))
       datatable(out,
                 caption = "Bande de danger et bande de concentration",
                 options = list(paging = FALSE, searching = FALSE))
